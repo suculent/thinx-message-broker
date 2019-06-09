@@ -1,6 +1,13 @@
 version: '3'
+
+networks:
+  nat:
+    external: true
+  internal:
+    external: false
+
 services:
-  transformer:
+  mosquitto:
     user: mosquitto # or ${CURRENT_UID} if CURRENT_UID=$(id -u):$(id -g) docker-compose up
     image: toke/mosquitto
     ports:
@@ -8,10 +15,11 @@ services:
       - "8883:8883"
     restart: on-failure
     env_file: .env
+    networks:
+      - nat
+      - internal
     volumes:
-      - /mnt/data/mosquitto:/mqtt/config:ro
-      - /mnt/data/mosquitto/log:/mqtt/log
-      - /mnt/data/mosquitto/data/:/mqtt/data/
-    labels:
-    - "traefik.expose=true"
-
+      - /mnt/data/mosquitto/config:/mqtt/config:rw
+      - /mnt/data/mosquitto/data:/mqtt/data:rw
+      - /mnt/data/mosquitto/ssl:/mqtt/ssl:rw
+      - /mnt/data/mosquitto/auth:/mqtt/auth:rw
