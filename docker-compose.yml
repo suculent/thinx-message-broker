@@ -1,0 +1,17 @@
+version: '3'
+services:
+  transformer:
+    user: mosquitto # or ${CURRENT_UID} if CURRENT_UID=$(id -u):$(id -g) docker-compose up
+    image: toke/mosquitto
+    ports:
+      - "1883:1883"
+      - "8883:8883"
+    restart: on-failure
+    env_file: .env
+    volumes:
+      - /mnt/data/mosquitto:/mqtt/config:ro
+      - /mnt/data/mosquitto/log:/mqtt/log
+      - /mnt/data/mosquitto/data/:/mqtt/data/
+    labels:
+    - "traefik.expose=true"
+
