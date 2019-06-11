@@ -8,7 +8,7 @@ networks:
 
 services:
   mosquitto:
-    user: mosquitto # or ${CURRENT_UID} if CURRENT_UID=$(id -u):$(id -g) docker-compose up
+    # user: mosquitto # or ${CURRENT_UID} if CURRENT_UID=$(id -u):$(id -g) docker-compose up
 #    image: suculent/thinx-message_broker # toke/mosquitto
     build: .    
     ports:
@@ -24,4 +24,3 @@ services:
       - /mnt/data/mosquitto/data:/mqtt/data:rw
       - /mnt/data/mosquitto/ssl:/mqtt/ssl:rw
       - /mnt/data/mosquitto/auth:/mqtt/auth:rw
-      - ./incron.cfg:/var/spool/incron.cfg
