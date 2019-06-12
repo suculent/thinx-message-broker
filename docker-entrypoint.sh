@@ -1,14 +1,24 @@
 #!/bin/bash
 
-set -e
+set +e
 
-#exec "$@"
+echo "Starting incron..."
 
 # must be run as root
 service incron start
+incrontab --reload
+incrontab -l
 
-# temporarily disabled until login will work (--system must be used to override existing user but does not allow login)
-#su - mosquitto
+echo "Switching to service user..."
+touch /mqtt/log/mosquitto.log
+chown -R mosquitto:mosquitto /mqtt
+su mosquitto -s /bin/bash
 
-/usr/sbin/mosquitto -c /mqtt/config/mosquitto.conf
+echo "MQTT config:"
+cat /mqtt/config/mosquitto.conf
+echo ""
 
+echo "Starting MQTT broker..."
+/usr/sbin/mosquitto -v -c /mqtt/config/mosquitto.conf
+
+echo "MQTT broker exited..."
