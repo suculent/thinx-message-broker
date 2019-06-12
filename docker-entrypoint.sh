@@ -1,14 +1,24 @@
 #!/bin/bash
 
-set -e
+set +e
 
-#exec "$@"
+echo "Starting incron..."
 
 # must be run as root
 service incron start
-#/usr/sbin/incrond -f /etc/incron.conf --foreground &&
+incrontab --reload
+incrontab -l
 
-su - mosquitto
+echo "Switching to service user..."
+touch /mqtt/log/mosquitto.log
+chown -R mosquitto:mosquitto /mqtt
+su mosquitto -s /bin/bash
 
-/usr/sbin/mosquitto -c /mqtt/config/mosquitto.conf
+echo "MQTT config:"
+cat /mqtt/config/mosquitto.conf
+echo ""
 
+echo "Starting MQTT broker..."
+/usr/sbin/mosquitto -v -c /mqtt/config/mosquitto.conf
+
+echo "MQTT broker exited..."

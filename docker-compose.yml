@@ -8,9 +8,8 @@ networks:
 
 services:
   mosquitto:
-    # user: mosquitto # or ${CURRENT_UID} if CURRENT_UID=$(id -u):$(id -g) docker-compose up
-#    image: suculent/thinx-message_broker # toke/mosquitto
-    build: .    
+#    image: suculent/thinx-message_broker
+    build: .
     ports:
       - "1883:1883"
       - "8883:8883"
@@ -22,5 +21,6 @@ services:
     volumes:
       - /mnt/data/mosquitto/config:/mqtt/config:rw
       - /mnt/data/mosquitto/data:/mqtt/data:rw
+      - /mnt/data/mosquitto/log:/mqtt/ssl:rw
       - /mnt/data/mosquitto/ssl:/mqtt/ssl:rw
       - /mnt/data/mosquitto/auth:/mqtt/auth:rw
