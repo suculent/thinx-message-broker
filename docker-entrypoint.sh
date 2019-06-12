@@ -14,11 +14,6 @@ echo "Switching to service user..."
 touch /mqtt/log/mosquitto.log
 chown -R mosquitto:mosquitto /mqtt
 
-service mosquitto start
-tail -f /mqtt/log/mosquitto.log
-
-exit 0
-
 su mosquitto -s /bin/bash
 
 echo "MQTT config:"
