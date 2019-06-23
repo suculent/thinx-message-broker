@@ -8,8 +8,6 @@ RUN apt-get update && apt-get install -y wget apt-transport-https incron nano ap
     adduser --system --disabled-password --shell /bin/bash mosquitto && \
     apt-get clean
 
-VOLUME ["/mqtt/config", "/mqtt/data", "/mqtt/log", "/mqtt/auth", "/mqtt/ssl"]
-
 COPY ./config/mosquitto.conf /etc/mosquitto/conf.d/mosquitto.conf
 COPY ./mqtt_restart.sh /mqtt_restart.sh
 RUN echo "mosquitto" > /etc/incron.allow && \
@@ -19,12 +17,7 @@ RUN echo "mosquitto" > /etc/incron.allow && \
 COPY ./incron.cfg /var/spool/incron/root
 RUN chown root:incron /var/spool/incron/root
 
-RUN chown -R mosquitto:mosquitto /mqtt/log && \
-    chown -R mosquitto:mosquitto /var/log/mosquitto && \
-    touch /mqtt/log/mosquitto.log && \
-    ln -sf /dev/stdout /mqtt/log/mosquitto.log && \
-    touch /mqtt/log/incron.log && \
-    ln -sf /dev/stderr /mqtt/log/incron.log
+RUN chown -R mosquitto:mosquitto /var/log/mosquitto
 
 EXPOSE 1883 8883 9001
 

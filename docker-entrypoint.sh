@@ -2,6 +2,9 @@
 
 set +e
 
+ln -sf /dev/stdout /mqtt/log/mosquitto.log
+ln -sf /dev/stderr /mqtt/log/incron.log
+
 echo "Starting incron..."
 
 # must be run as root
