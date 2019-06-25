@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y wget apt-transport-https incron nano ap
     wget -q -O /etc/apt/sources.list.d/mosquitto-jessie.list https://repo.mosquitto.org/debian/mosquitto-jessie.list && \
     apt-get update && apt-get install -y mosquitto mosquitto-clients && \
     adduser --system --disabled-password --shell /bin/bash mosquitto && \
-    apt-get clean
+    apt-get clean && apt-get remove -y apt
 
 COPY ./config/mosquitto.conf /etc/mosquitto/conf.d/mosquitto.conf
 COPY ./mqtt_restart.sh /mqtt_restart.sh
