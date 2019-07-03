@@ -2,13 +2,13 @@
 
 set +e
 
-ln -sf /dev/stdout /mqtt/log/mosquitto.log
-ln -sf /dev/stderr /mqtt/log/incron.log
+echo "Starting cron..."
+
+cron -f &
 
 echo "Starting incron..."
 
 # must be run as root
-#service incron start
 incrond --foreground &
 incrontab --reload
 incrontab -l
