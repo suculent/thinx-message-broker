@@ -13,7 +13,7 @@ services:
     ports:
       - "1883:1883"
       - "8883:8883"
-    restart: on-failure
+    restart: unless-stopped
     env_file: .env
     networks:
       - nat
@@ -21,6 +21,6 @@ services:
     volumes:
       - /mnt/data/mosquitto/config:/mqtt/config:rw
       - /mnt/data/mosquitto/data:/mqtt/data:rw
-      - /mnt/data/mosquitto/log:/mqtt/ssl:rw
+      - /mnt/data/mosquitto/log:/mqtt/log:rw
       - /mnt/data/mosquitto/ssl:/mqtt/ssl:rw
       - /mnt/data/mosquitto/auth:/mqtt/auth:rw
