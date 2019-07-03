@@ -2,10 +2,13 @@
 
 set +e
 
+echo "Starting cron..."
+
+cron -f &
+
 echo "Starting incron..."
 
 # must be run as root
-#service incron start
 incrond --foreground &
 incrontab --reload
 incrontab -l
